@@ -5,9 +5,7 @@ export const updateTaskDtoSchema = z.object({
   id: z.number(),
   title: z.string().optional(),
   description: z.string().optional(),
-  status: z
-    .enum(["pending", "in_progress", "completed", "canceled"])
-    .optional(),
+  status: z.enum(["pending", "in_progress", "completed"]).optional(),
   dueDate: z.coerce
     .date()
     .refine((date) => date > new Date(), {

@@ -1,14 +1,12 @@
+import { Entity } from "../../../../shared/domain/entity";
 import { User } from "../../../users/domain/entities/user.entity";
 
 export type Task = {
-  id: number;
   title: string;
   description: string;
   status: string;
   dueDate: Date;
-  createdAt: Date;
-  updatedAt: Date;
   userId: number;
-};
+} & Entity;
 
 export type TaskWithUser = Task & { user: User };

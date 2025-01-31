@@ -1,10 +1,9 @@
+import { Entity } from "../../../../shared/domain/entity";
+
 export type BaseUser = {
-  id: number;
   name: string;
   email: string;
   password: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
+} & Entity;
 
 export type User = Omit<BaseUser, "password">;
