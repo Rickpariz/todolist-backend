@@ -1,0 +1,3 @@
+export enum JWT_ROLES {
+  RESET_PASSWORD = "RESET_PASSWORD",
+}

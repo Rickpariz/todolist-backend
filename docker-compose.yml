@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  # app:
+  #   build: .
+  #   environment:
+  #     DATABASE_URL: mysql://root:root@medcof-mysql:3306/medcof
+  #   volumes:
+  #     - .:/usr/src/app
+  #   depends_on:
+  #     - medcof-mysql
+  #   ports:
+  #     - "3000:3000"
+
+  medcof-mysql:
+    container_name: medcof-mysql
+    platform: linux/x86_64
+    image: mysql
+    restart: always
+    volumes:
+      - medcof-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: $PASS_DB
+      MYSQL_DATABASE: $NAME_DB
+    ports:
+      - 3306:3306
+volumes:
+  medcof-mysql-data:
+    driver: local

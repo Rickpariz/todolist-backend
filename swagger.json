@@ -1,0 +1,1491 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Medcof",
+    "description": "API para gerenciamento de tarefas",
+    "license": {
+      "name": ""
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "create user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome do usuário"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "Email do usuário"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Senha do usuário"
+                  }
+                },
+                "required": ["name", "email", "password"],
+                "x-examples": {
+                  "Example 1": {
+                    "name": "Ricardo Pariz",
+                    "email": "ricardo.pariz@gmail.com",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "id": 1,
+                      "name": "Ricardo Pariz",
+                      "email": "ricardo.pariz@gmail.com"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "id": 1,
+                      "name": "Ricardo Pariz",
+                      "email": "ricardo.pariz@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Usuário duplicado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "A user with this email already exists"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "A user with this email already exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Erro na validação de dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "validation": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "minimum": {
+                            "type": "integer"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "inclusive": {
+                            "type": "boolean"
+                          },
+                          "exact": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "VALIDATION_ERROR",
+                      "errors": [
+                        {
+                          "validation": "email",
+                          "code": "invalid_string",
+                          "message": "Invalid email",
+                          "path": ["email"]
+                        },
+                        {
+                          "code": "too_small",
+                          "minimum": 4,
+                          "type": "string",
+                          "inclusive": true,
+                          "exact": false,
+                          "message": "String must contain at least 4 character(s)",
+                          "path": ["password"]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "/users/{id}": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "update user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "x-examples": {
+                  "Example 1": {
+                    "name": "Ricardo Pariz",
+                    "email": "ricardo.pariz@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "id": 1,
+                      "name": "Pariz",
+                      "email": "ricardo.pariz@gmail.com"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "id": 1,
+                      "name": "Pariz",
+                      "email": "ricardo.pariz@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "UNAUTHORIZED"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "jwt expire",
+                    "value": {
+                      "message": "jwt expired"
+                    }
+                  },
+                  "example-1": {
+                    "summary": "unauthorized update user",
+                    "value": {
+                      "message": "UNAUTHORIZED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "user not found"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "user not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "User with this email already exists"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "User with this email already exists"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"],
+                "x-examples": {
+                  "Example 1": {
+                    "email": "ricardo.pariz@gmail.com",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login efetuado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IlJpY2FyZG8gUGFyaXoiLCJlbWFpbCI6InJpY2FyZG8ucGFyaXpAZ21haWwuY29tIiwiaWF0IjoxNzI3NDk2NTQwLCJleHAiOjE3Mjc1MDM3NDB9.L-HIUOvBs8JDYgsYsxzGIrXhpFI7mEUm4mbV_fsDfE0"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IlJpY2FyZG8gUGFyaXoiLCJlbWFpbCI6InJpY2FyZG8ucGFyaXpAZ21haWwuY29tIiwiaWF0IjoxNzI3NDk2NTQwLCJleHAiOjE3Mjc1MDM3NDB9.L-HIUOvBs8JDYgsYsxzGIrXhpFI7mEUm4mbV_fsDfE0"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "UNAUTHORIZED"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "UNAUTHORIZED"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "/request-password-reset": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "request password reset",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "x-examples": {
+                  "Example 1": {
+                    "email": "ricardo.pariz@gmail.com"
+                  }
+                }
+              },
+              "examples": {
+                "Example 1": {
+                  "value": {
+                    "email": "ricardo.pariz@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IlJpY2FyZG8gUGFyaXoiLCJlbWFpbCI6InJpY2FyZG8ucGFyaXpAZ21haWwuY29tIiwicm9sZXMiOlsiUkVTRVRfUEFTU1dPUkQiXSwiaWF0IjoxNzI3NTAwMTU5LCJleHAiOjE3Mjc1MDA3NTl9._CSNfyUiodF0jWX_3ya33H_wSZnmPBM61TEPqHU8eE4"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6IlJpY2FyZG8gUGFyaXoiLCJlbWFpbCI6InJpY2FyZG8ucGFyaXpAZ21haWwuY29tIiwicm9sZXMiOlsiUkVTRVRfUEFTU1dPUkQiXSwiaWF0IjoxNzI3NTAwMTU5LCJleHAiOjE3Mjc1MDA3NTl9._CSNfyUiodF0jWX_3ya33H_wSZnmPBM61TEPqHU8eE4"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "/reset-password": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "reset password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "x-examples": {
+                  "Example 1": {
+                    "password": "5678"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "id": 3,
+                      "name": "Ricardo Pariz",
+                      "email": "ricardo.pariz@gmail.com"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "id": 3,
+                      "name": "Ricardo Pariz",
+                      "email": "ricardo.pariz@gmail.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "/tasks": {
+      "post": {
+        "tags": ["tasks"],
+        "summary": "create task",
+        "operationId": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Task 1"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Task 1 Description"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["pending", "in_progress", "completed"]
+                  },
+                  "dueDate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-05-06T18:36:07.558Z"
+                  }
+                },
+                "required": ["title", "description", "status", "dueDate"],
+                "x-examples": {
+                  "Example 1": {
+                    "title": "Task 1",
+                    "description": "Testando",
+                    "status": "pending",
+                    "dueDate": "2025-02-06T18:36:07.558Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "dueDate": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "userId": {
+                      "type": "integer"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "id": 2,
+                      "title": "Task 2",
+                      "description": "Testando",
+                      "status": "pending",
+                      "dueDate": "2025-05-06T18:36:07.558Z",
+                      "active": true,
+                      "createdAt": "2025-01-30T22:03:44.562Z",
+                      "updatedAt": "2025-01-30T22:03:44.562Z",
+                      "userId": 1
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "id": 2,
+                      "title": "Task 2",
+                      "description": "Testando",
+                      "status": "pending",
+                      "dueDate": "2025-05-06T18:36:07.558Z",
+                      "active": true,
+                      "createdAt": "2025-01-30T22:03:44.562Z",
+                      "updatedAt": "2025-01-30T22:03:44.562Z",
+                      "userId": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Task duplicada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "Task with this title already exists"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "Task with this title already exists"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Erro na validação de dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "received": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "VALIDATION_ERROR",
+                      "errors": [
+                        {
+                          "received": "testando",
+                          "code": "invalid_enum_value",
+                          "options": ["pending", "in_progress", "completed"],
+                          "path": ["status"],
+                          "message": "Invalid enum value. Expected 'pending' | 'in_progress' | 'completed', received 'testando'"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "VALIDATION_ERROR",
+                      "errors": [
+                        {
+                          "received": "testando",
+                          "code": "invalid_enum_value",
+                          "options": ["pending", "in_progress", "completed"],
+                          "path": ["status"],
+                          "message": "Invalid enum value. Expected 'pending' | 'in_progress' | 'completed', received 'testando'"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ],
+        "x-internal": false
+      },
+      "get": {
+        "tags": ["tasks"],
+        "summary": "list tasks",
+        "operationId": "",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "description": "Número da página",
+            "allowEmptyValue": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "Quantidade de itens por página",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "orderBy[field]",
+            "in": "query",
+            "description": "Campo para ordenação",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy[direction]",
+            "in": "query",
+            "description": "Direção da ordenácão",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "dueDate": {
+                            "type": "string"
+                          },
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "createdAt": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string"
+                          },
+                          "userId": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "pageNumber": {
+                          "type": "integer"
+                        },
+                        "pageSize": {
+                          "type": "integer"
+                        },
+                        "totalPages": {
+                          "type": "integer"
+                        },
+                        "lastPage": {
+                          "type": "boolean"
+                        },
+                        "firstPage": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "data": [
+                        {
+                          "id": 1,
+                          "title": "Task 1",
+                          "description": "Testando",
+                          "status": "pending",
+                          "dueDate": "2025-02-06T18:36:07.558Z",
+                          "active": true,
+                          "createdAt": "2025-01-29T22:21:29.566Z",
+                          "updatedAt": "2025-01-29T22:21:59.807Z",
+                          "userId": 1
+                        },
+                        {
+                          "id": 2,
+                          "title": "Task 2",
+                          "description": "Testando",
+                          "status": "pending",
+                          "dueDate": "2025-05-06T18:36:07.558Z",
+                          "active": true,
+                          "createdAt": "2025-01-30T22:03:44.562Z",
+                          "updatedAt": "2025-01-30T22:03:44.562Z",
+                          "userId": 1
+                        }
+                      ],
+                      "pagination": {
+                        "pageNumber": 1,
+                        "pageSize": 10,
+                        "totalPages": 1,
+                        "lastPage": true,
+                        "firstPage": true
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": 1,
+                          "title": "Task 1",
+                          "description": "Testando",
+                          "status": "pending",
+                          "dueDate": "2025-02-06T18:36:07.558Z",
+                          "active": true,
+                          "createdAt": "2025-01-29T22:21:29.566Z",
+                          "updatedAt": "2025-01-29T22:21:59.807Z",
+                          "userId": 1
+                        },
+                        {
+                          "id": 2,
+                          "title": "Task 2",
+                          "description": "Testando",
+                          "status": "pending",
+                          "dueDate": "2025-05-06T18:36:07.558Z",
+                          "active": true,
+                          "createdAt": "2025-01-30T22:03:44.562Z",
+                          "updatedAt": "2025-01-30T22:03:44.562Z",
+                          "userId": 1
+                        }
+                      ],
+                      "pagination": {
+                        "pageNumber": 1,
+                        "pageSize": 10,
+                        "totalPages": 1,
+                        "lastPage": true,
+                        "firstPage": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "tags": ["tasks"],
+        "summary": "get task",
+        "operationId": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "dueDate": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "userId": {
+                      "type": "integer"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "id": 1,
+                      "title": "Task 1",
+                      "description": "Testando",
+                      "status": "pending",
+                      "dueDate": "2025-02-06T18:36:07.558Z",
+                      "active": true,
+                      "createdAt": "2025-01-29T22:21:29.566Z",
+                      "updatedAt": "2025-01-29T22:21:59.807Z",
+                      "userId": 1
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "id": 1,
+                      "title": "Task 1",
+                      "description": "Testando",
+                      "status": "pending",
+                      "dueDate": "2025-02-06T18:36:07.558Z",
+                      "active": true,
+                      "createdAt": "2025-01-29T22:21:29.566Z",
+                      "updatedAt": "2025-01-29T22:21:59.807Z",
+                      "userId": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "task not found"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "task not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["tasks"],
+        "summary": "update task",
+        "operationId": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["pending", "in_progress", "completed"]
+                  },
+                  "dueDate": {
+                    "type": "string"
+                  }
+                },
+                "x-examples": {
+                  "Example 1": {
+                    "title": "Task Updated",
+                    "description": "Testando",
+                    "status": "pending",
+                    "dueDate": "2025-02-06T18:36:07.558Z"
+                  }
+                }
+              },
+              "examples": {
+                "default": {
+                  "value": {
+                    "title": "Task 2",
+                    "description": "Testando",
+                    "status": "pending",
+                    "dueDate": "2025-02-06T18:36:07.558Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "dueDate": {
+                      "type": "string"
+                    },
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "userId": {
+                      "type": "integer"
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "id": 1,
+                      "title": "Task Update",
+                      "description": "Testando",
+                      "status": "pending",
+                      "dueDate": "2025-02-06T18:36:07.558Z",
+                      "active": true,
+                      "createdAt": "2025-01-29T22:21:29.566Z",
+                      "updatedAt": "2025-01-30T22:30:37.116Z",
+                      "userId": 1
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "id": 1,
+                      "title": "Task Update",
+                      "description": "Testando",
+                      "status": "pending",
+                      "dueDate": "2025-02-06T18:36:07.558Z",
+                      "active": true,
+                      "createdAt": "2025-01-29T22:21:29.566Z",
+                      "updatedAt": "2025-01-30T22:30:37.116Z",
+                      "userId": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition Failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "received": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "options": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "message": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "Example 1": {
+                      "message": "VALIDATION_ERROR",
+                      "errors": [
+                        {
+                          "received": "teste",
+                          "code": "invalid_enum_value",
+                          "options": [
+                            "pending",
+                            "in_progress",
+                            "completed",
+                            "canceled"
+                          ],
+                          "path": ["status"],
+                          "message": "Invalid enum value. Expected 'pending' | 'in_progress' | 'completed' | 'canceled', received 'teste'"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "VALIDATION_ERROR",
+                      "errors": [
+                        {
+                          "received": "teste",
+                          "code": "invalid_enum_value",
+                          "options": [
+                            "pending",
+                            "in_progress",
+                            "completed",
+                            "canceled"
+                          ],
+                          "path": ["status"],
+                          "message": "Invalid enum value. Expected 'pending' | 'in_progress' | 'completed' | 'canceled', received 'teste'"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["tasks"],
+        "summary": "delete task",
+        "operationId": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "Example 1": {
+                    "value": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "UNAUTHORIZED"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "message": "task not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://localhost:3000",
+            "description": ""
+          }
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "users"
+    },
+    {
+      "name": "auth"
+    },
+    {
+      "name": "tasks"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
