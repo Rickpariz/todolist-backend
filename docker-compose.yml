@@ -1,16 +1,16 @@
 version: '3.7'
 
 services:
-  # app:
-  #   build: .
-  #   environment:
-  #     DATABASE_URL: mysql://root:root@medcof-mysql:3306/medcof
-  #   volumes:
-  #     - .:/usr/src/app
-  #   depends_on:
-  #     - medcof-mysql
-  #   ports:
-  #     - "3000:3000"
+  app:
+    build: .
+    environment:
+      DATABASE_URL: mysql://root:root@medcof-mysql:3306/medcof
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - medcof-mysql
+    ports:
+      - "3000:3000"
 
   medcof-mysql:
     container_name: medcof-mysql
