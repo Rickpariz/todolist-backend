@@ -18,7 +18,6 @@ export default class ListTasksUseCase
   async execute(data: ListTasksDto): Promise<Pagination<Task>> {
     const { userId, pageSize, pageNumber, orderBy } = data;
 
-    console.log(data);
     const tasks = await this.repository.findAll({
       userId,
       orderBy,
