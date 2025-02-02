@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import {
   FindAllParams,
   ITaskRepository,
@@ -41,14 +41,30 @@ export default class TaskRepository implements ITaskRepository {
 
   async findAll(params: FindAllParams): Promise<Pagination<Task>> {
     const {
+      search,
+      status,
       userId,
       orderBy,
       pagination: { pageNumber = 1, pageSize = DEFAULT_PAGE_SIZE },
     } = params;
 
+    const where: Prisma.TaskWhereInput = {
+      ...(status?.length ? { status: { in: status } } : {}),
+      ...(search
+        ? {
+            OR: [
+              { title: { contains: search } },
+              { description: { contains: search } },
+            ],
+          }
+        : {}),
+      userId,
+      active: true,
+    };
+
     const [tasks, total] = await Promise.all([
       this.prisma.task.findMany({
-        where: { userId, active: true },
+        where,
         take: pageSize,
         skip: (pageNumber - 1) * pageSize,
         ...(orderBy
@@ -60,7 +76,7 @@ export default class TaskRepository implements ITaskRepository {
           : {}),
       }),
       this.prisma.task.count({
-        where: { userId, active: true },
+        where,
       }),
     ]);
 

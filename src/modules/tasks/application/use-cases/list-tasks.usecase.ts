@@ -16,10 +16,12 @@ export default class ListTasksUseCase
 
   @Validate(listTasksDtoSchema)
   async execute(data: ListTasksDto): Promise<Pagination<Task>> {
-    const { userId, pageSize, pageNumber, orderBy } = data;
+    const { userId, pageSize, pageNumber, orderBy, search, status } = data;
 
     const tasks = await this.repository.findAll({
       userId,
+      search,
+      status,
       orderBy,
       pagination: {
         pageNumber: Number(pageNumber || 1),

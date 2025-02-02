@@ -3,6 +3,8 @@ import { CreateTaskUseCaseDto } from "../../infrastructure/dtos/create-task.dto"
 import { Task } from "../entities/task.entity";
 
 export interface FindAllParams {
+  status?: string[];
+  search?: string;
   userId: number;
   pagination: {
     pageNumber: number;

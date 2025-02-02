@@ -119,6 +119,8 @@ describe("TaskRepository", () => {
 
     const result = await repository.findAll({
       userId: 1,
+      status: ["pending"],
+      search: "search",
       pagination: { pageNumber: 1, pageSize: 10 },
       orderBy: {
         direction: "asc",
