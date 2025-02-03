@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { userSchema } from "../../../../shared/infrastructure/dtos/user-schema";
+import { isFutureDate } from "../../../../shared/application/date";
 
 export const updateTaskDtoSchema = z.object({
   id: z.number(),
@@ -8,7 +9,7 @@ export const updateTaskDtoSchema = z.object({
   status: z.enum(["pending", "in_progress", "completed"]).optional(),
   dueDate: z.coerce
     .date()
-    .refine((date) => date > new Date(), {
+    .refine((date) => isFutureDate(date), {
       message: "dueDate must be a future date",
     })
     .optional(),

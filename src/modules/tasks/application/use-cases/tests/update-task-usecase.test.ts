@@ -109,7 +109,7 @@ describe("UpdateTaskUseCase", () => {
       },
       title: "Updated Task",
       description: "Updated Description",
-      dueDate: new Date(),
+      dueDate: new Date((new Date().getDate() - 1)),
       status: "completed",
     };
 
