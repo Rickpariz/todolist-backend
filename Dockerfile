@@ -14,7 +14,7 @@ COPY . .
 
 RUN echo '#!/bin/sh' > /usr/local/bin/entrypoint.sh && \
     echo 'dockerize -wait tcp://medcof-mysql:3306 -timeout 60s' >> /usr/local/bin/entrypoint.sh && \
-    echo 'npx prisma migrate dev --name init' >> /usr/local/bin/entrypoint.sh && \
+    echo 'npx prisma migrate reset --force' >> /usr/local/bin/entrypoint.sh && \
     echo 'exec "$@"' >> /usr/local/bin/entrypoint.sh && \
     chmod +x /usr/local/bin/entrypoint.sh
 
