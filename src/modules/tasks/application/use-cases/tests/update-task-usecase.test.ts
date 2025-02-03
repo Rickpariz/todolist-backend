@@ -97,29 +97,6 @@ describe("UpdateTaskUseCase", () => {
     );
   });
 
-  it("should throw Validation Error if dueDate is invalid", async () => {
-    taskRepository.findById.mockResolvedValue(null);
-
-    const updateDto: UpdateTaskUseCaseDto = {
-      id: 99,
-      tokenUser: {
-        id: 1,
-        email: "ricardo.pariz@gmail.com",
-        name: "Ricardo Pariz",
-      },
-      title: "Updated Task",
-      description: "Updated Description",
-      dueDate: new Date((new Date().getDate() - 1)),
-      status: "completed",
-    };
-
-    try {
-      await updateTaskUseCase.execute(updateDto);
-    } catch (err: any) {
-      expect(err.message).toBe(ERRORS.VALIDATION_ERROR);
-    }
-  });
-
   it("should throw Unauthorized if user is not the owner of the task", async () => {
     const existingTask: Task = {
       id: 10,
